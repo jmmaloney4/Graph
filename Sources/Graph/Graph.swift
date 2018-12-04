@@ -7,9 +7,9 @@
 
 import Foundation
 
-protocol Vertex: Hashable {}
+public protocol Vertex: Hashable {}
 
-protocol Edge: Hashable {
+public protocol Edge: Hashable {
     associatedtype V: Vertex
     
     var vertices: [V] { get }
