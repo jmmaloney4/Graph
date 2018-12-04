@@ -33,7 +33,7 @@ public typealias Graph<T> = Set<T> where T: Edge
 public typealias Path<T> = Array<T> where T: Edge
 
 extension Graph {
-    typealias V = Element.V
+    public typealias V = Element.V
     
     public var vertices: [V] {
         return self.verticesCounted().keys.map({ $0 })
