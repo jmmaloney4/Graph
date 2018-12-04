@@ -35,7 +35,7 @@ public typealias Path<T> = Array<T> where T: Edge
 extension Graph {
     typealias V = Element.V
     
-    var vertices: [V] {
+    public var vertices: [V] {
         return self.verticesCounted().keys.map({ $0 })
     }
     
@@ -57,7 +57,7 @@ extension Graph {
         return self.filter({ $0.connectsTo(vertexA) && $0.connectsTo(vertexB) })
     }
     
-    var edges: [Element] {
+    public var edges: [Element] {
         return self.sorted(by: { $0.length < $1.length })
     }
     
