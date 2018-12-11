@@ -17,15 +17,25 @@ public protocol Edge: Hashable {
 }
 
 extension Edge {
-    func connectsTo(_ vert: V) -> Bool {
+    public func connectsTo(_ vert: V) -> Bool {
         return vertices.contains(where: { $0 == vert })
     }
     
-    func connectsTo(_ edge: Self) -> Bool {
+    public func connectsTo(_ edge: Self) -> Bool {
         var set: Set<V> = Set()
         self.vertices.forEach({ set.insert($0) })
         edge.vertices.forEach({ set.insert($0) })
         return set.count != 4
+    }
+    
+    public func other(_ vert: V) -> V {
+        if self.vertices[0] == vert {
+            return self.vertices[1]
+        } else if self.vertices[1] == vert {
+            return self.vertices[0]
+        } else {
+            fatalError()
+        }
     }
 }
 
@@ -61,7 +71,7 @@ extension Graph {
         return self.sorted(by: { $0.length < $1.length })
     }
     
-    func asPath() -> Path<Element>? {
+    public func asPath() -> Path<Element>? {
         var ends: [V] = []
         self.verticesCounted().forEach { (vert, count) in
             if count.odd() {
@@ -90,6 +100,29 @@ extension Graph {
         } else {
             return nil
         }
+    }
+    
+    public func edgesAdjacentTo(_ vertex: V) -> [Element] {
+        return self.edges.filter({ $0.connectsTo(vertex) })
+    }
+    
+    public func allPaths() {
+        var paths: [Path<Element>] = []
+        
+        for node in self.vertices {
+            var fn: ((V, Path<Element>) -> Void)! = nil
+            fn = { vert, current in
+                for edge in self.edgesAdjacentTo(vert) where !current.contains(edge) {
+                    var new = current
+                    new.append(edge)
+                    paths.append(new)
+                    
+                    fn(edge.other(vert), new)
+                }
+            }
+            fn(node, Path<Element>())
+        }
+        paths.forEach({ print("\($0)") })
     }
 }
 
