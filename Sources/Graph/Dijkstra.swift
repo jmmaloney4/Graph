@@ -29,7 +29,7 @@ fileprivate class DijkstraNode<T>: Comparable where T: Vertex {
 }
 
 extension Graph {
-    func dijkstrasAlgorithm(from vertexA: V, to vertexB: V) -> Path<Element>? {
+    public func dijkstrasAlgorithm(from vertexA: V, to vertexB: V) -> Path<Element>? {
         var queue: PriorityQueue<DijkstraNode<V>> = PriorityQueue<DijkstraNode<V>>(ascending: true)
         queue.push(DijkstraNode(vertex: vertexA, previous: nil, distance: 0))
         for vertex in self.vertices where vertex != vertexA {
