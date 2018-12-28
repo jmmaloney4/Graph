@@ -106,7 +106,7 @@ extension Graph {
         return self.edges.filter({ $0.connectsTo(vertex) })
     }
     
-    public func allPaths() {
+    public func allPaths() -> [Path<Element>] {
         var paths: [Path<Element>] = []
         
         for node in self.vertices {
@@ -115,6 +115,11 @@ extension Graph {
                 for edge in self.edgesAdjacentTo(vert) where !current.contains(edge) {
                     var new = current
                     new.append(edge)
+                    
+                    if paths.contains(new) {
+                        fatalError()
+                    }
+                    
                     paths.append(new)
                     
                     fn(edge.other(vert), new)
@@ -122,7 +127,8 @@ extension Graph {
             }
             fn(node, Path<Element>())
         }
-        paths.forEach({ print("\($0)") })
+        
+        return paths
     }
 }
 
