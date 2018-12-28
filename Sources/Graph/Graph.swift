@@ -133,7 +133,7 @@ extension Graph {
 }
 
 extension Path {
-    var length: Int {
+    public var length: Int {
         return self.reduce(0, { return $0 + $1.length })
     }
 }
