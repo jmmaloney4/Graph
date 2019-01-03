@@ -39,6 +39,10 @@ extension Edge {
     }
 }
 
+extension Vertex {
+    
+}
+
 public typealias Graph<T> = Set<T> where T: Edge
 public typealias Path<T> = Array<T> where T: Edge
 
